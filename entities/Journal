@@ -1,0 +1,81 @@
+{
+  "name": "Journal",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Full journal title"
+    },
+    "short_title": {
+      "type": "string",
+      "description": "Abbreviated journal title"
+    },
+    "field": {
+      "type": "string",
+      "enum": [
+        "neuroscience",
+        "psychology",
+        "medicine",
+        "public_health",
+        "bioengineering",
+        "genetics",
+        "microbiology",
+        "plant_science",
+        "environmental_science",
+        "computer_science",
+        "robotics",
+        "physics",
+        "chemistry",
+        "materials_science",
+        "earth_science",
+        "marine_science",
+        "veterinary_science",
+        "nutrition",
+        "pharmacology",
+        "immunology"
+      ],
+      "description": "Primary research field"
+    },
+    "scope": {
+      "type": "string",
+      "description": "Detailed scope and focus areas of the journal"
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Key research topics and terms"
+    },
+    "impact_factor": {
+      "type": "number",
+      "description": "Journal impact factor"
+    },
+    "submission_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Accepted article types"
+    },
+    "open_access": {
+      "type": "boolean",
+      "default": true,
+      "description": "Open access status"
+    },
+    "website_url": {
+      "type": "string",
+      "description": "Journal website URL"
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of the journal"
+    }
+  },
+  "required": [
+    "title",
+    "field",
+    "scope",
+    "keywords"
+  ]
+}

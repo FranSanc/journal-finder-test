@@ -1,0 +1,38 @@
+{
+  "name": "SavedSearch",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "User-defined name for this saved search"
+    },
+    "abstract": {
+      "type": "string",
+      "description": "Research abstract"
+    },
+    "keywords": {
+      "type": "string",
+      "description": "Search keywords"
+    },
+    "aims": {
+      "type": "string",
+      "description": "Research aims"
+    },
+    "scope": {
+      "type": "string",
+      "description": "Research scope and field"
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "abstract",
+        "keywords"
+      ],
+      "default": "abstract",
+      "description": "Search mode used"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}
