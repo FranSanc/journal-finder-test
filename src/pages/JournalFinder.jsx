@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
 import { InvokeLLM } from "@/integrations/Core";
 import { Journal } from "@/entities/Journal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Search, Sparkles, Bookmark } from "lucide-react";
+import { Search, Sparkles } from "lucide-react";
 
 import SearchForm from "../components/finder/SearchForm";
 import ResultsGrid from "../components/finder/ResultsGrid";
-import SavedSearches from "../components/finder/SavedSearches";
 
 export default function JournalFinder() {
   const [searchData, setSearchData] = useState({
@@ -109,7 +107,7 @@ export default function JournalFinder() {
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-6 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full max-w-lg mx-auto grid-cols-3 mb-8 bg-card shadow-lg">
+          <TabsList className="grid w-full max-w-lg mx-auto grid-cols-2 mb-8 bg-card shadow-lg">
             <TabsTrigger value="search" className="flex items-center gap-2">
               <Search className="w-4 h-4" />
               Search
@@ -117,10 +115,6 @@ export default function JournalFinder() {
             <TabsTrigger value="results" className="flex items-center gap-2">
               <Sparkles className="w-4 h-4" />
               Results ({results.length})
-            </TabsTrigger>
-            <TabsTrigger value="saved" className="flex items-center gap-2">
-              <Bookmark className="w-4 h-4" />
-              Saved
             </TabsTrigger>
           </TabsList>
 
@@ -141,25 +135,6 @@ export default function JournalFinder() {
             />
           </TabsContent>
 
-          <TabsContent value="saved" className="mt-0">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-xl font-bold text-foreground mb-5 flex items-center gap-2">
-                <Bookmark className="w-5 h-5" />
-                My Saved Searches
-              </h2>
-              <SavedSearches
-                onLoadSearch={(s) => {
-                  setSearchData({
-                    abstract: s.abstract || "",
-                    keywords: s.keywords || "",
-                    aims: s.aims || "",
-                    scope: s.scope || ""
-                  });
-                  setActiveTab("search");
-                }}
-              />
-            </div>
-          </TabsContent>
         </Tabs>
       </div>
     </div>

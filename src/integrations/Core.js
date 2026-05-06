@@ -1,7 +1,7 @@
 /**
- * Drop-in replacement for the base44 `InvokeLLM` integration.
+ * Browser-side helper for calling the AI gateway.
  *
- * Original signature (base44):
+ * Original signature:
  *   InvokeLLM({ prompt, response_json_schema }) -> Promise<object>
  *
  * This implementation calls Vercel's AI Gateway directly from the browser

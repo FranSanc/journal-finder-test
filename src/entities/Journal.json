@@ -77,5 +77,6 @@
     "field",
     "scope",
     "keywords"
-  ]
+  ],
+  "list": "async function() { const response = await fetch('/src/entities/journalData.json'); return response.json(); }"
 }

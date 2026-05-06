@@ -4,9 +4,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Search, Sparkles, FileText, Target, Focus, Hash, Bookmark } from "lucide-react";
+import { Search, Sparkles, FileText, Target, Focus, Hash } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import SaveSearchDialog from "./SaveSearchDialog";
 
 export default function SearchForm({ 
   searchData, 
@@ -15,7 +14,6 @@ export default function SearchForm({
   isSearching 
 }) {
   const [mode, setMode] = useState("abstract"); // "abstract" | "keywords"
-  const [saveDialogOpen, setSaveDialogOpen] = useState(false);
 
   const handleInputChange = (field, value) => {
     setSearchData(prev => ({
@@ -39,11 +37,7 @@ export default function SearchForm({
       <Card className="max-w-4xl mx-auto shadow-xl border-0 bg-card">
         <CardHeader className="text-center pb-4">
           <div className="flex justify-center mb-3">
-            <img
-              src="https://media.base44.com/images/public/68acbfef2f7ee01e99f906ee/fb091ce5d_frontiers-1-2c466918.jpg"
-              alt="Frontiers"
-              className="h-16 object-contain"
-            />
+            <Sparkles className="w-16 h-16 text-accent" />
           </div>
           <CardTitle className="text-2xl font-bold text-foreground flex items-center justify-center gap-2">
             <Sparkles className="w-6 h-6 text-accent" />
@@ -65,7 +59,7 @@ export default function SearchForm({
                   : "bg-card text-muted-foreground hover:bg-muted"
               }`}
             >
-              <img src="https://media.base44.com/images/public/68acbfef2f7ee01e99f906ee/b1b2bcd93_Screenshot2026-04-21174029.png" alt="abstract" className="w-5 h-5 object-contain" />
+              <FileText className="w-5 h-5" />
               1. Match my abstract
             </button>
             <button
@@ -76,7 +70,7 @@ export default function SearchForm({
                   : "bg-card text-muted-foreground hover:bg-muted"
               }`}
             >
-              <img src="https://media.base44.com/images/public/68acbfef2f7ee01e99f906ee/08d35006e_Screenshot2026-04-21174404.png" alt="keywords" className="w-5 h-5 object-contain" />
+              <Hash className="w-5 h-5" />
               2. Search by keywords, aims & scope
             </button>
           </div>
@@ -160,15 +154,6 @@ export default function SearchForm({
 
           <div className="pt-2 flex gap-3">
             <Button
-              variant="outline"
-              onClick={() => setSaveDialogOpen(true)}
-              disabled={isSearching}
-              className="rounded-full h-12 px-5 border-2 font-semibold shrink-0"
-            >
-              <Bookmark className="w-4 h-4 mr-2" />
-              Save
-            </Button>
-            <Button
               onClick={onSearch}
               disabled={isDisabled}
               className="w-full h-12 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-white"
@@ -189,13 +174,6 @@ export default function SearchForm({
               )}
             </Button>
           </div>
-
-          <SaveSearchDialog
-            open={saveDialogOpen}
-            onOpenChange={setSaveDialogOpen}
-            searchData={searchData}
-            mode={mode}
-          />
 
           <div className="bg-muted rounded-lg p-4 text-sm text-muted-foreground">
             <p className="font-medium mb-2">💡 Pro Tips:</p>
