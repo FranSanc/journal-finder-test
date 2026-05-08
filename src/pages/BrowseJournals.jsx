@@ -65,6 +65,7 @@ export default function BrowseJournals() {
 
   const getFieldColor = (field) => {
     const colors = {
+      biology: "bg-green-100 text-green-800",
       neuroscience: "bg-purple-100 text-purple-800",
       psychology: "bg-blue-100 text-blue-800",
       medicine: "bg-red-100 text-red-800",
@@ -84,7 +85,10 @@ export default function BrowseJournals() {
       veterinary_science: "bg-rose-100 text-rose-800",
       nutrition: "bg-yellow-100 text-yellow-800",
       pharmacology: "bg-fuchsia-100 text-fuchsia-800",
-      immunology: "bg-gray-100 text-gray-800"
+      immunology: "bg-gray-100 text-gray-800",
+      social_sciences: "bg-indigo-100 text-indigo-800",
+      engineering: "bg-orange-100 text-orange-800",
+      other: "bg-gray-100 text-gray-800"
     };
     return colors[field] || "bg-gray-100 text-gray-800";
   };

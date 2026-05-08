@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { InvokeLLM } from "@/integrations/Core";
 import { Journal } from "@/entities/Journal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

@@ -24,11 +24,10 @@
  *   - VITE_AI_GATEWAY_MODEL     (optional, default: openai/gpt-4o-mini)
  */
 
-const GATEWAY_URL =
-  import.meta.env.VITE_AI_GATEWAY_URL ?? "https://ai-gateway.vercel.sh/v1";
 const DEFAULT_MODEL =
   import.meta.env.VITE_AI_GATEWAY_MODEL ?? "openai/gpt-4o-mini";
-const API_KEY = import.meta.env.VITE_AI_GATEWAY_API_KEY;
+// Backend proxy endpoint (no need to expose API_KEY in frontend)
+const BACKEND_API_URL = "/api/ai";
 
 export async function InvokeLLM({
   prompt,
@@ -40,9 +39,9 @@ export async function InvokeLLM({
   if (!prompt || typeof prompt !== "string") {
     throw new Error("InvokeLLM: `prompt` is required and must be a string.");
   }
-  if (!API_KEY) {
+  if (!DEFAULT_MODEL) {
     throw new Error(
-      "InvokeLLM: VITE_AI_GATEWAY_API_KEY is not set. Add it to .env.local and rebuild."
+      "InvokeLLM: VITE_AI_GATEWAY_MODEL is not set. Add it to .env.local and rebuild."
     );
   }
 
@@ -74,11 +73,10 @@ export async function InvokeLLM({
     body.response_format = { type: "json_object" };
   }
 
-  const res = await fetch(`${GATEWAY_URL}/chat/completions`, {
+  const res = await fetch(`${BACKEND_API_URL}/chat`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${API_KEY}`,
     },
     body: JSON.stringify(body),
     signal,

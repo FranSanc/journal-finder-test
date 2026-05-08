@@ -9,6 +9,7 @@ export default function JournalCard({ journal, showScore = false, rank = null })
 
   const getFieldColor = (field) => {
     const colors = {
+      biology: "bg-green-100 text-green-800 border-green-200",
       neuroscience: "bg-purple-100 text-purple-800 border-purple-200",
       psychology: "bg-blue-100 text-blue-800 border-blue-200", 
       medicine: "bg-red-100 text-red-800 border-red-200",
@@ -28,7 +29,10 @@ export default function JournalCard({ journal, showScore = false, rank = null })
       veterinary_science: "bg-rose-100 text-rose-800 border-rose-200",
       nutrition: "bg-yellow-100 text-yellow-800 border-yellow-200",
       pharmacology: "bg-fuchsia-100 text-fuchsia-800 border-fuchsia-200",
-      immunology: "bg-gray-100 text-gray-800 border-gray-200"
+      immunology: "bg-gray-100 text-gray-800 border-gray-200",
+      social_sciences: "bg-indigo-100 text-indigo-800 border-indigo-200",
+      engineering: "bg-orange-100 text-orange-800 border-orange-200",
+      other: "bg-gray-100 text-gray-800 border-gray-200"
     };
     return colors[field] || "bg-gray-100 text-gray-800 border-gray-200";
   };
@@ -98,6 +102,11 @@ export default function JournalCard({ journal, showScore = false, rank = null })
             <div className="flex items-center gap-1">
               <Users className="w-4 h-4" />
               <span>{journal_data.submission_types.length} article types</span>
+            </div>
+          )}
+          {(journal_data.issn_print || journal_data.issn_electronic) && (
+            <div className="flex items-center gap-1">
+              <span>ISSN: {journal_data.issn_print || journal_data.issn_electronic}</span>
             </div>
           )}
         </div>

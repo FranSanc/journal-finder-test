@@ -1,15 +1,23 @@
 // Journal entity module
+import Papa from 'papaparse';
+
 export const Journal = {
   async list() {
     try {
-      const response = await fetch('/src/entities/journalData.json');
+      const response = await fetch('/JournalList.csv');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data = await response.json();
+      const csvText = await response.text();
+
+      // Parse CSV
+      const parsed = Papa.parse(csvText, {
+        header: true,
+        skipEmptyLines: true
+      });
 
       // Transform CSV data to match expected format
-      return data.map(journal => ({
+      return parsed.data.map(journal => ({
         title: journal['Journal Name'],
         short_title: journal['Abbreviation'],
         field: mapSubjectAreaToField(journal['Subject Area']),
@@ -19,6 +27,8 @@ export const Journal = {
         submission_types: journal['Submission Types'] ? journal['Submission Types'].split('; ').map(t => t.trim()) : [],
         open_access: journal['Open Access'] === 'Yes',
         website_url: journal['URL'],
+        issn_print: journal['ISSN (Print)'],
+        issn_electronic: journal['ISSN (Electronic)'],
         description: journal['Description']
       }));
     } catch (error) {
