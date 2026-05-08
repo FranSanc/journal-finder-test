@@ -111,6 +111,11 @@ export default function Layout({ children, currentPageName }) {
           <header className="bg-card border-b border-border px-6 py-4 lg:hidden">
             <div className="flex items-center gap-4">
               <SidebarTrigger className="hover:bg-muted p-2 rounded-lg transition-colors duration-200" />
+              <img
+                src="/frontiers-logo.svg"
+                alt="Frontiers logo"
+                className="h-10 w-auto"
+              />
               <h1 className="text-xl font-bold text-foreground">Frontiers Journal Finder</h1>
             </div>
           </header>

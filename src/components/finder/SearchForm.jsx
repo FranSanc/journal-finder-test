@@ -36,14 +36,20 @@ export default function SearchForm({
     >
       <Card className="max-w-4xl mx-auto shadow-xl border-0 bg-card">
         <CardHeader className="text-center pb-4">
-          <div className="flex justify-center mb-3">
-            <Sparkles className="w-16 h-16 text-accent" />
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <img
+              src="/frontiers-icon.svg"
+              alt="Frontiers icon"
+              className="h-8 w-auto"
+            />
+            <span className="text-sm font-medium tracking-tight text-slate-500 lowercase">
+              frontiers
+            </span>
           </div>
-          <CardTitle className="text-2xl font-bold text-foreground flex items-center justify-center gap-2">
-            <Sparkles className="w-6 h-6 text-accent" />
+          <CardTitle className="text-3xl font-bold text-foreground">
             Frontiers Journal Finder
           </CardTitle>
-          <p className="text-muted-foreground mt-2">
+          <p className="text-muted-foreground mt-3">
             Provide your research abstract below and let us find the perfect Frontiers journal for your work
           </p>
         </CardHeader>
