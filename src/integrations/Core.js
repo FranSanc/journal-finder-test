@@ -4,14 +4,13 @@
  * Original signature:
  *   InvokeLLM({ prompt, response_json_schema }) -> Promise<object>
  *
- * This implementation calls Vercel's AI Gateway directly from the browser
- * (the gateway is OpenAI-compatible). The contract is unchanged, so existing
- * callers like `src/pages/JournalFinder.jsx` keep working.
+ * This implementation calls Vercel's AI Gateway directly from the browser.
+ * The gateway is OpenAI-compatible.
  *
  * ⚠️  SECURITY NOTE
  * -----------------
- * Because this app is deployed to a purely static host (no backend), the
- * Vercel AI Gateway key has to be embedded in the client bundle via
+ * Because this app calls the AI Gateway directly from the client, the
+ * Vercel AI Gateway key is embedded in the client bundle via
  * `VITE_AI_GATEWAY_API_KEY`. That means anyone with browser DevTools can
  * read it and use it on their own. Treat the key as semi-public:
  *   - keep this app behind auth (SSO, network restriction, internal-only),
@@ -26,8 +25,9 @@
 
 const DEFAULT_MODEL =
   import.meta.env.VITE_AI_GATEWAY_MODEL ?? "openai/gpt-4o-mini";
-// Backend proxy endpoint (no need to expose API_KEY in frontend)
-const BACKEND_API_URL = "/api/ai";
+const DEFAULT_GATEWAY_URL =
+  import.meta.env.VITE_AI_GATEWAY_URL ?? "https://ai-gateway.vercel.sh/v1";
+const API_KEY = import.meta.env.VITE_AI_GATEWAY_API_KEY;
 
 export async function InvokeLLM({
   prompt,
@@ -39,9 +39,9 @@ export async function InvokeLLM({
   if (!prompt || typeof prompt !== "string") {
     throw new Error("InvokeLLM: `prompt` is required and must be a string.");
   }
-  if (!DEFAULT_MODEL) {
+  if (!API_KEY) {
     throw new Error(
-      "InvokeLLM: VITE_AI_GATEWAY_MODEL is not set. Add it to .env.local and rebuild."
+      "InvokeLLM: VITE_AI_GATEWAY_API_KEY is not set. Add it to .env.local and rebuild."
     );
   }
 
@@ -73,10 +73,11 @@ export async function InvokeLLM({
     body.response_format = { type: "json_object" };
   }
 
-  const res = await fetch(`${BACKEND_API_URL}/chat`, {
+  const res = await fetch(`${DEFAULT_GATEWAY_URL}/chat/completions`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${API_KEY}`,
     },
     body: JSON.stringify(body),
     signal,
@@ -106,3 +107,4 @@ export async function InvokeLLM({
 }
 
 export default InvokeLLM;
+
