@@ -112,9 +112,9 @@ export default function Layout({ children, currentPageName }) {
             <div className="flex items-center gap-4">
               <SidebarTrigger className="hover:bg-muted p-2 rounded-lg transition-colors duration-200" />
               <img
-                src="/frontiers-logo.svg"
+                src="/Frontiers_Logo_Grey.png"
                 alt="Frontiers logo"
-                className="h-10 w-auto"
+                className="h-6 w-auto"
               />
               <h1 className="text-xl font-bold text-foreground">Frontiers Journal Finder</h1>
             </div>

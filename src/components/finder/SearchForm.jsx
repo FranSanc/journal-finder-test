@@ -38,13 +38,10 @@ export default function SearchForm({
         <CardHeader className="text-center pb-4">
           <div className="flex items-center justify-center gap-2 mb-2">
             <img
-              src="/frontiers-icon.svg"
+              src="/Frontiers_Logo_Grey.png"
               alt="Frontiers icon"
-              className="h-8 w-auto"
+              className="h-6 w-auto"
             />
-            <span className="text-sm font-medium tracking-tight text-slate-500 lowercase">
-              frontiers
-            </span>
           </div>
           <CardTitle className="text-3xl font-bold text-foreground">
             Frontiers Journal Finder
