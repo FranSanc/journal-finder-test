@@ -62,7 +62,11 @@ export default function SearchForm({
                   : "bg-card text-muted-foreground hover:bg-muted"
               }`}
             >
-              <FileText className="w-5 h-5" />
+              <img
+                src="/manuscripts_icon.png"
+                alt="Frontiers icon"
+                className="h-5 w-auto" 
+              />
               1. Match my abstract
             </button>
             <button
@@ -73,7 +77,11 @@ export default function SearchForm({
                   : "bg-card text-muted-foreground hover:bg-muted"
               }`}
             >
-              <Hash className="w-5 h-5" />
+              <img
+                src="/light_bulb_icon.png"
+                alt="light bulb icon"
+                className="h-5 w-auto" 
+              />
               2. Search by keywords, aims & scope
             </button>
           </div>
@@ -90,7 +98,6 @@ export default function SearchForm({
                 className="space-y-2"
               >
                 <Label htmlFor="abstract" className="flex items-center gap-2 text-sm font-semibold">
-                  <FileText className="w-4 h-4 text-accent" />
                   Research Abstract
                 </Label>
                 <Textarea
@@ -112,7 +119,6 @@ export default function SearchForm({
               >
                 <div className="space-y-2">
                   <Label htmlFor="keywords" className="flex items-center gap-2 text-sm font-semibold">
-                    <Hash className="w-4 h-4 text-accent" />
                     Keywords
                   </Label>
                   <Input
@@ -126,7 +132,6 @@ export default function SearchForm({
 
                 <div className="space-y-2">
                   <Label htmlFor="aims" className="flex items-center gap-2 text-sm font-semibold">
-                    <Target className="w-4 h-4 text-accent" />
                     Research Aims
                   </Label>
                   <Input
@@ -140,7 +145,6 @@ export default function SearchForm({
 
                 <div className="space-y-2">
                   <Label htmlFor="scope" className="flex items-center gap-2 text-sm font-semibold">
-                    <Focus className="w-4 h-4 text-accent" />
                     Research Scope & Field
                   </Label>
                   <Input

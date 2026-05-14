@@ -141,7 +141,7 @@ export default function BrowseJournals() {
               ))
             ) : (
               Array(9).fill(0).map((_, i) => (
-                <div key={i} className="h-80 bg-muted animate-pulse rounded-xl" />
+                <div key={`skeleton-${i}`} className="h-80 bg-muted animate-pulse rounded-xl" />
               ))
             )}
           </AnimatePresence>

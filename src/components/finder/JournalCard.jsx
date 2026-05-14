@@ -126,8 +126,8 @@ export default function JournalCard({ journal, showScore = false, rank = null })
           <div>
             <h4 className="font-semibold text-sm text-foreground mb-2">Key matches:</h4>
             <div className="flex flex-wrap gap-1">
-              {key_matches.slice(0, 4).map((match, index) => (
-                <Badge key={index} variant="secondary" className="text-xs">
+              {key_matches.slice(0, 4).map((match) => (
+                <Badge key={match} variant="secondary" className="text-xs">
                   {match}
                 </Badge>
               ))}
@@ -144,8 +144,8 @@ export default function JournalCard({ journal, showScore = false, rank = null })
           <div>
             <h4 className="font-semibold text-sm text-foreground mb-2">Research areas:</h4>
             <div className="flex flex-wrap gap-1">
-              {journal_data.keywords.slice(0, 6).map((keyword, index) => (
-                <Badge key={index} variant="outline" className="text-xs">
+              {journal_data.keywords.slice(0, 6).map((keyword) => (
+                <Badge key={keyword} variant="outline" className="text-xs">
                   {keyword}
                 </Badge>
               ))}
