@@ -65,8 +65,8 @@ export default function SearchForm({
               <img
                 src="/manuscripts_icon.png"
                 alt="Frontiers icon"
-                className="h-5 w-auto" 
-              />
+                className="h-6 w-auto" 
+              />    
               1. Match my abstract
             </button>
             <button

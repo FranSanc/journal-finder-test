@@ -54,17 +54,6 @@ export default function JournalCard({ journal, showScore = false, rank = null })
                   {rank}
                 </div>
               )}
-              <Badge 
-                variant="secondary" 
-                className={`${getFieldColor(journal_data.field)} border font-medium`}
-              >
-                {journal_data.field.replace(/_/g, ' ')}
-              </Badge>
-              {journal_data.open_access && (
-                <Badge variant="outline" className="text-accent border-accent">
-                  Open Access
-                </Badge>
-              )}
             </div>
             <CardTitle className="text-xl font-bold text-foreground leading-tight">
               {journal_data.title}
