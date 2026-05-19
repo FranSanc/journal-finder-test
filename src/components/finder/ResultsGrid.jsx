@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Search } from "lucide-react";
+import { ArrowLeft, Search, Bookmark } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import JournalCard from "./JournalCard";
@@ -8,7 +8,8 @@ import JournalCard from "./JournalCard";
 export default function ResultsGrid({ 
   results, 
   isSearching, 
-  onBackToSearch 
+  onBackToSearch,
+  onSaveSearch
 }) {
   if (isSearching) {
     return (
@@ -35,14 +36,26 @@ export default function ResultsGrid({
             Found {results.length} matching journals ranked by relevance
           </p>
         </div>
-        <Button
-          variant="outline"
-          onClick={onBackToSearch}
-          className="flex items-center gap-2"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          New Search
-        </Button>
+        <div className="flex gap-3">
+          {onSaveSearch && (
+            <Button
+              onClick={onSaveSearch}
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              <Bookmark className="w-4 h-4" />
+              Save Search
+            </Button>
+          )}
+          <Button
+            variant="outline"
+            onClick={onBackToSearch}
+            className="flex items-center gap-2"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            New Search
+          </Button>
+        </div>
       </div>
 
       <AnimatePresence mode="wait">

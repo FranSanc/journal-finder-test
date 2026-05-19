@@ -11,15 +11,29 @@ export default function SearchForm({
   searchData, 
   setSearchData, 
   onSearch, 
-  isSearching 
+  isSearching,
+  searchMode = "abstract",
+  setSearchMode
 }) {
-  const [mode, setMode] = useState("abstract"); // "abstract" | "keywords"
+  const [mode, setMode] = useState(searchMode); // "abstract" | "keywords"
+
+  // Update internal mode when searchMode prop changes
+  React.useEffect(() => {
+    setMode(searchMode);
+  }, [searchMode]);
 
   const handleInputChange = (field, value) => {
     setSearchData(prev => ({
       ...prev,
       [field]: value
     }));
+  };
+
+  const handleModeChange = (newMode) => {
+    setMode(newMode);
+    if (setSearchMode) {
+      setSearchMode(newMode);
+    }
   };
 
   const isDisabled = isSearching || (
@@ -55,7 +69,7 @@ export default function SearchForm({
           {/* Mode Toggle */}
           <div className="flex rounded-xl border-2 border-border overflow-hidden">
             <button
-              onClick={() => setMode("abstract")}
+              onClick={() => handleModeChange("abstract")}
               className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-sm font-semibold transition-all duration-200 ${
                 mode === "abstract"
                   ? "bg-accent text-accent-foreground"
@@ -63,14 +77,14 @@ export default function SearchForm({
               }`}
             >
               <img
-                src="/manuscripts_icon.png"
+                src="/manuscript_icon.png"
                 alt="Frontiers icon"
                 className="h-6 w-auto" 
               />    
               1. Match my abstract
             </button>
             <button
-              onClick={() => setMode("keywords")}
+              onClick={() => handleModeChange("keywords")}
               className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-sm font-semibold transition-all duration-200 ${
                 mode === "keywords"
                   ? "bg-accent text-accent-foreground"
@@ -78,9 +92,9 @@ export default function SearchForm({
               }`}
             >
               <img
-                src="/light_bulb_icon.png"
+                src="/idea_icon.png"
                 alt="light bulb icon"
-                className="h-5 w-auto" 
+                className="h-6 w-auto" 
               />
               2. Search by keywords, aims & scope
             </button>

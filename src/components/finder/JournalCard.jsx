@@ -84,7 +84,7 @@ export default function JournalCard({ journal, showScore = false, rank = null })
           {journal_data.impact_factor && (
             <div className="flex items-center gap-1">
               <TrendingUp className="w-4 h-4" />
-              <span>IF: {journal_data.impact_factor}</span>
+              <span>JIF: {journal_data.impact_factor}</span>
             </div>
           )}
           {journal_data.submission_types && (

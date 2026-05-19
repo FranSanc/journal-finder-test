@@ -2,10 +2,13 @@ import { useEffect, useState } from "react";
 import { InvokeLLM } from "@/integrations/Core";
 import { Journal } from "@/entities/Journal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Search, Sparkles } from "lucide-react";
+import { Search, Sparkles, Bookmark } from "lucide-react";
 
 import SearchForm from "../components/finder/SearchForm";
 import ResultsGrid from "../components/finder/ResultsGrid";
+import SavedSearchesList from "../components/finder/SavedSearchesList";
+import { SaveSearchDialog } from "../components/finder/SaveSearchDialog";
+import { SavedSearchesService } from "@/utils/savedSearches";
 
 export default function JournalFinder() {
   const [searchData, setSearchData] = useState({
@@ -14,18 +17,35 @@ export default function JournalFinder() {
     aims: "",
     scope: ""
   });
+  const [searchMode, setSearchMode] = useState("abstract");
   const [results, setResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [journals, setJournals] = useState([]);
   const [activeTab, setActiveTab] = useState("search");
+  const [savedSearches, setSavedSearches] = useState([]);
+  const [showSaveDialog, setShowSaveDialog] = useState(false);
+  const [isLoadingSaved, setIsLoadingSaved] = useState(false);
 
   useEffect(() => {
     loadJournals();
+    loadSavedSearches();
   }, []);
 
   const loadJournals = async () => {
     const journalList = await Journal.list();
     setJournals(journalList);
+  };
+
+  const loadSavedSearches = () => {
+    setIsLoadingSaved(true);
+    try {
+      const searches = SavedSearchesService.getAll();
+      setSavedSearches(searches);
+    } catch (error) {
+      console.error("Error loading saved searches:", error);
+    } finally {
+      setIsLoadingSaved(false);
+    }
   };
 
   const handleSearch = async () => {
@@ -104,11 +124,45 @@ export default function JournalFinder() {
     setIsSearching(false);
   };
 
+  const handleSaveSearch = (searchName) => {
+    const savedSearch = SavedSearchesService.save({
+      name: searchName,
+      abstract: searchData.abstract,
+      keywords: searchData.keywords,
+      aims: searchData.aims,
+      scope: searchData.scope,
+      mode: searchMode,
+      results: results
+    });
+
+    if (savedSearch) {
+      loadSavedSearches();
+      setShowSaveDialog(false);
+    }
+  };
+
+  const handleRunSavedSearch = (savedSearch) => {
+    setSearchData({
+      abstract: savedSearch.abstract,
+      keywords: savedSearch.keywords,
+      aims: savedSearch.aims,
+      scope: savedSearch.scope
+    });
+    setSearchMode(savedSearch.mode);
+    setResults(savedSearch.results || []);
+    setActiveTab("results");
+  };
+
+  const handleDeleteSavedSearch = (searchId) => {
+    SavedSearchesService.delete(searchId);
+    loadSavedSearches();
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-6 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full max-w-lg mx-auto grid-cols-2 mb-8 bg-card shadow-lg">
+          <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-3 mb-8 bg-card shadow-lg">
             <TabsTrigger value="search" className="flex items-center gap-2">
               <Search className="w-4 h-4" />
               Search
@@ -116,6 +170,10 @@ export default function JournalFinder() {
             <TabsTrigger value="results" className="flex items-center gap-2">
               <Sparkles className="w-4 h-4" />
               Results ({results.length})
+            </TabsTrigger>
+            <TabsTrigger value="saved" className="flex items-center gap-2">
+              <Bookmark className="w-4 h-4" />
+              Saved ({savedSearches.length})
             </TabsTrigger>
           </TabsList>
 
@@ -125,6 +183,8 @@ export default function JournalFinder() {
               setSearchData={setSearchData}
               onSearch={handleSearch}
               isSearching={isSearching}
+              searchMode={searchMode}
+              setSearchMode={setSearchMode}
             />
           </TabsContent>
 
@@ -133,10 +193,27 @@ export default function JournalFinder() {
               results={results}
               isSearching={isSearching}
               onBackToSearch={() => setActiveTab("search")}
+              onSaveSearch={() => setShowSaveDialog(true)}
+            />
+          </TabsContent>
+
+          <TabsContent value="saved" className="mt-0">
+            <SavedSearchesList
+              savedSearches={savedSearches}
+              onRunSearch={handleRunSavedSearch}
+              onDeleteSearch={handleDeleteSavedSearch}
+              isLoading={isLoadingSaved}
             />
           </TabsContent>
 
         </Tabs>
+
+        <SaveSearchDialog
+          isOpen={showSaveDialog}
+          onSave={handleSaveSearch}
+          onCancel={() => setShowSaveDialog(false)}
+          suggestedName=""
+        />
       </div>
     </div>
   );
