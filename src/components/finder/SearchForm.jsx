@@ -4,7 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Search, Sparkles, FileText, Target, Focus, Hash } from "lucide-react";
+import { Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function SearchForm({ 

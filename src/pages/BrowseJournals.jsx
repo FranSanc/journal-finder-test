@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Journal } from "@/entities/Journal";
 import { motion, AnimatePresence } from "framer-motion";
 
