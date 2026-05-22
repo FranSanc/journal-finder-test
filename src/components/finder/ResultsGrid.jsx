@@ -84,7 +84,7 @@ export default function ResultsGrid({
             <p className="text-muted-foreground mb-6">
               Try adjusting your search terms or providing more details about your research.
             </p>
-            <Button onClick={onBackToSearch} className="bg-accent hover:bg-accent/90">
+            <Button onClick={onBackToSearch} className="bg-accent hover:bg-accent/90 text-accent-foreground">
               Try Another Search
             </Button>
           </motion.div>

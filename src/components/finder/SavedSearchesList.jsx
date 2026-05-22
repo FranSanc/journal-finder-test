@@ -46,8 +46,8 @@ export default function SavedSearchesList({
             </Badge>
           </div>
 
-          <AnimatePresence mode="wait">
-            <div className="grid gap-4">
+          <div className="grid gap-4">
+            <AnimatePresence mode="popLayout">
               {savedSearches.map((search, index) => (
                 <motion.div
                   key={search.id}
@@ -145,8 +145,8 @@ export default function SavedSearchesList({
                   </Card>
                 </motion.div>
               ))}
-            </div>
-          </AnimatePresence>
+            </AnimatePresence>
+          </div>
         </div>
       )}
     </div>
