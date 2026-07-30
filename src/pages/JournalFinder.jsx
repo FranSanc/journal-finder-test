@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { InvokeLLM } from "@/integrations/Core";
+import { InvokeLLM } from "@/integrations/keywordMatcher";
 import { Journal } from "@/entities/Journal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Search, Sparkles, Bookmark } from "lucide-react";

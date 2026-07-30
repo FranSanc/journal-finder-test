@@ -13,7 +13,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "test:keyword-matching": "vitest run tests/integrations/keywordMatching.integration.test.js --maxWorkers=1"
   },
   "dependencies": {
     "@hello-pangea/dnd": "^17.0.0",

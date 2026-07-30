@@ -7,12 +7,12 @@ vi.mock('@/entities/Journal', () => ({
   Journal: { list: vi.fn() },
 }));
 
-vi.mock('@/integrations/Core', () => ({
+vi.mock('@/integrations/keywordMatcher', () => ({
   InvokeLLM: vi.fn(),
 }));
 
 import { Journal } from '@/entities/Journal';
-import { InvokeLLM } from '@/integrations/Core';
+import { InvokeLLM } from '@/integrations/keywordMatcher';
 import JournalFinder from '@/pages/JournalFinder';
 
 describe('JournalFinder page', () => {

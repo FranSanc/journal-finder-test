@@ -1,0 +1,9 @@
+
+ RUN  v4.1.7 C:/GitHub/journal-finder-test
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  13:55:50
+   Duration  106.96s (transform 400ms, setup 23.49s, import 317ms, tests 30.18s, environment 52.27s)
+
