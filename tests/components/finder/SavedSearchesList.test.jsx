@@ -107,7 +107,7 @@ describe('SavedSearchesList', () => {
       />,
     );
 
-    // Each row has a trash button (icon-only). They're rendered after the "Display results" button.
+    // Each row has a trash button (icon-only). They're rendered after the "View results" button.
     const allButtons = screen.getAllByRole('button');
     const deleteButtons = allButtons.filter(
       (b) => !/view results/i.test(b.textContent ?? ''),
