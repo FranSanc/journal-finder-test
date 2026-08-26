@@ -129,7 +129,7 @@ export default function SavedSearchesList({
                             size="sm"
                           >
                             <Play className="w-4 h-4" />
-                            Display results
+                            View results
                           </Button>
                           <Button
                             onClick={() => onDeleteSearch(search.id)}

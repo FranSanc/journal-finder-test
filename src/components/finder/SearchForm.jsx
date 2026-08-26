@@ -197,7 +197,7 @@ export default function SearchForm({
           </div>
 
           <div className="bg-muted rounded-lg p-4 text-sm text-muted-foreground">
-            <p className="font-medium mb-2">💡 Pro Tips:</p>
+            <p className="font-medium mb-2">Pro Tips:</p>
             <ul className="space-y-1 list-disc list-inside">
               <li>Use <strong>Match my abstract</strong> for the most accurate matching</li>
               <li>Use <strong>Keywords & aims</strong> when you don't have a full abstract yet</li>
