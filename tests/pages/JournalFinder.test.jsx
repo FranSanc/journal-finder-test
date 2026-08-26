@@ -176,7 +176,7 @@ describe('JournalFinder page', () => {
     await user.click(await screen.findByRole('tab', { name: /saved \(1\)/i }));
     expect(screen.getByText('Previously saved')).toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: /display results/i }));
+    await user.click(screen.getByRole('button', { name: /view results/i }));
 
     // Now on the Results tab, with the pre-saved result rendered.
     expect(await screen.findByText('Frontiers in Neuroscience')).toBeInTheDocument();
@@ -208,9 +208,9 @@ describe('JournalFinder page', () => {
     const buttons = screen.getAllByRole('button');
     const deleteButton = buttons.find(
       (b) =>
-        !/display results/i.test(b.textContent ?? '') &&
+        !/view results/i.test(b.textContent ?? '') &&
         b.closest('.text-destructive, .hover\\:text-destructive') !== null,
-    ) || buttons.filter((b) => !/display results/i.test(b.textContent ?? '')).pop();
+    ) || buttons.filter((b) => !/view results/i.test(b.textContent ?? '')).pop();
 
     await user.click(deleteButton);
 

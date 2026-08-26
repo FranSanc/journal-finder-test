@@ -87,7 +87,7 @@ describe('SavedSearchesList', () => {
       />,
     );
 
-    const runButtons = screen.getAllByRole('button', { name: /display results/i });
+    const runButtons = screen.getAllByRole('button', { name: /view results/i });
     await user.click(runButtons[0]);
 
     expect(onRunSearch).toHaveBeenCalledWith(searches[0]);
@@ -110,7 +110,7 @@ describe('SavedSearchesList', () => {
     // Each row has a trash button (icon-only). They're rendered after the "Display results" button.
     const allButtons = screen.getAllByRole('button');
     const deleteButtons = allButtons.filter(
-      (b) => !/display results/i.test(b.textContent ?? ''),
+      (b) => !/view results/i.test(b.textContent ?? ''),
     );
     await user.click(deleteButtons[0]);
 
