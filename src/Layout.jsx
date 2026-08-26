@@ -18,7 +18,7 @@ import {
 
 const navigationItems = [
   {
-    title: "Journal Finder",
+    title: "Frontiers journal finder",
     url: createPageUrl("JournalFinder"),
     icon: Search,
   },
@@ -73,8 +73,7 @@ export default function Layout({ children, currentPageName }) {
                 <BookOpen className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h2 className="font-bold text-xl text-foreground">Frontiers</h2>
-                <p className="text-sm text-muted-foreground">Journal Finder</p>
+                <h2 className="font-bold text-xl text-foreground">Frontiers journal finder</h2>
               </div>
             </div>
           </SidebarHeader>
@@ -116,7 +115,7 @@ export default function Layout({ children, currentPageName }) {
                 alt="Frontiers logo"
                 className="h-6 w-auto"
               />
-              <h1 className="text-xl font-bold text-foreground">Frontiers Journal Finder</h1>
+              <h1 className="text-xl font-bold text-foreground">Frontiers journal finder</h1>
             </div>
           </header>
 

@@ -58,10 +58,10 @@ export default function SearchForm({
             />
           </div>
           <CardTitle className="text-3xl font-bold text-foreground">
-            Frontiers Journal Finder
+            Frontiers journal finder
           </CardTitle>
           <p className="text-muted-foreground mt-3">
-            Provide your research abstract below and let us find the perfect Frontiers journal for your work
+            Provide your research abstract below and let us find the right Frontiers journal for your work
           </p>
         </CardHeader>
 
