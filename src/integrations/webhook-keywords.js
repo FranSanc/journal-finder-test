@@ -51,7 +51,7 @@ const N8N_WEBHOOK_URL =
   "https://n8n.frontiersin.io/webhook/match-journal-bq";
 const SCOPE_CLASSIFIER_WEBHOOK_URL =
   import.meta.env.VITE_N8N_SCOPE_CLASSIFIER_WEBHOOK_URL ??
-  "https://n8n.frontiersin.io/webhook/scope-classifier";
+  "https://n8n.frontiersin.io/webhook/ai-scope-classifier-proxy";
 const DEFAULT_TIMEOUT_MS = 30000;
 
 function normalizeScopeClassifierResult(payload) {
@@ -106,6 +106,12 @@ async function invokeWebhook(url, body, signal, timeoutMs) {
 }
 
 export async function invokeScopeClassifier({ manuscript, signal, timeoutMs = DEFAULT_TIMEOUT_MS } = {}) {
+  if (!SCOPE_CLASSIFIER_WEBHOOK_URL) {
+    throw new Error(
+      "InvokeLLM: VITE_N8N_SCOPE_CLASSIFIER_WEBHOOK_URL is not configured."
+    );
+  }
+
   const payload = await invokeWebhook(
     SCOPE_CLASSIFIER_WEBHOOK_URL,
     {

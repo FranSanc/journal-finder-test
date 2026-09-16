@@ -182,6 +182,17 @@ export default function JournalFinder() {
     loadSavedSearches();
   };
 
+  const handleNewSearch = () => {
+    setSearchData({
+      title: "",
+      abstract: "",
+      keywords: "",
+      aims: "",
+      scope: ""
+    });
+    setActiveTab("search");
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-6 py-8">
@@ -216,7 +227,7 @@ export default function JournalFinder() {
             <ResultsGrid
               results={results}
               isSearching={isSearching}
-              onBackToSearch={() => setActiveTab("search")}
+              onBackToSearch={handleNewSearch}
               onSaveSearch={() => setShowSaveDialog(true)}
             />
           </TabsContent>

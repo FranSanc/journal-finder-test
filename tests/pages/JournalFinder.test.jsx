@@ -84,6 +84,31 @@ describe('JournalFinder page', () => {
     expect(InvokeLLM).not.toHaveBeenCalled();
   });
 
+  it('clears all search fields when starting a new search', async () => {
+    InvokeLLM.mockResolvedValueOnce({ matches: [] });
+    const user = userEvent.setup();
+    renderWithRouter(<JournalFinder />);
+    await waitFor(() => expect(Journal.list).toHaveBeenCalled());
+
+    await user.type(screen.getByLabelText(/manuscript title/i), 'Title');
+    await user.type(screen.getByLabelText(/research abstract/i), 'Abstract');
+    await user.click(screen.getByRole('button', { name: /search by keywords/i }));
+    await user.type(await screen.findByLabelText(/keywords/i), 'Keywords');
+    await user.type(await screen.findByLabelText(/research aims/i), 'Aims');
+    await user.type(await screen.findByLabelText(/research scope/i), 'Scope');
+    await user.click(screen.getByRole('button', { name: /find your journal/i }));
+
+    await user.click(screen.getByRole('tab', { name: /results/i }));
+    await user.click(screen.getByRole('button', { name: /new search/i }));
+
+    expect(await screen.findByLabelText(/keywords/i)).toHaveValue('');
+    expect(await screen.findByLabelText(/research aims/i)).toHaveValue('');
+    expect(await screen.findByLabelText(/research scope/i)).toHaveValue('');
+    await user.click(screen.getByRole('button', { name: /match my abstract/i }));
+    expect(await screen.findByLabelText(/manuscript title/i)).toHaveValue('');
+    expect(await screen.findByLabelText(/research abstract/i)).toHaveValue('');
+  });
+
   it('handles LLM errors gracefully without crashing', async () => {
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     InvokeLLM.mockRejectedValueOnce(new Error('boom'));
