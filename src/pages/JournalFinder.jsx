@@ -12,6 +12,7 @@ import { SavedSearchesService } from "@/utils/savedSearches";
 
 export default function JournalFinder() {
   const [searchData, setSearchData] = useState({
+    title: "",
     abstract: "",
     keywords: "",
     aims: "",
@@ -85,6 +86,11 @@ export default function JournalFinder() {
 
       const matchingResult = await InvokeLLM({
         prompt: searchPrompt,
+        searchMode,
+        manuscript: {
+          title: searchData.title,
+          abstract: searchData.abstract,
+        },
         response_json_schema: {
           type: "object",
           properties: {
@@ -108,13 +114,29 @@ export default function JournalFinder() {
         }
       });
 
-      const enrichedResults = matchingResult.matches.map(match => {
-        const journal = journals.find(j => j.title === match.journal_title);
+      const matches = matchingResult.data ?? matchingResult.matches ?? [];
+      const isClassifierResult = Array.isArray(matchingResult.data);
+      const enrichedResults = matches.map(match => {
+        const journalTitle = match.journal_name ?? match.journal_title;
+        const positive = Array.isArray(match.positive) ? match.positive : [];
+        const journal = journals.find(j => j.title === journalTitle) ?? (isClassifierResult ? {
+          title: journalTitle,
+          field: "other",
+          keywords: [],
+          website_url: journalTitle
+            ? `https://www.frontiersin.org/search?query=${encodeURIComponent(journalTitle)}`
+            : undefined,
+        } : null);
+
         return {
           ...match,
+          journal_title: journalTitle,
+          matching_score: match.score != null ? match.score * 20 : match.matching_score,
+          relevance_explanation: match.relevance_explanation ?? positive.join(" "),
+          key_matches: match.key_matches ?? positive,
           journal_data: journal
         };
-      }).filter(result => result.journal_data);
+      }).filter(result => result.journal_data?.title);
 
       setResults(enrichedResults);
     } catch (error) {
@@ -127,6 +149,7 @@ export default function JournalFinder() {
   const handleSaveSearch = (searchName) => {
     const savedSearch = SavedSearchesService.save({
       name: searchName,
+      title: searchData.title,
       abstract: searchData.abstract,
       keywords: searchData.keywords,
       aims: searchData.aims,
@@ -143,6 +166,7 @@ export default function JournalFinder() {
 
   const handleRunSavedSearch = (savedSearch) => {
     setSearchData({
+      title: savedSearch.title || "",
       abstract: savedSearch.abstract,
       keywords: savedSearch.keywords,
       aims: savedSearch.aims,
@@ -156,6 +180,17 @@ export default function JournalFinder() {
   const handleDeleteSavedSearch = (searchId) => {
     SavedSearchesService.delete(searchId);
     loadSavedSearches();
+  };
+
+  const handleNewSearch = () => {
+    setSearchData({
+      title: "",
+      abstract: "",
+      keywords: "",
+      aims: "",
+      scope: ""
+    });
+    setActiveTab("search");
   };
 
   return (
@@ -192,7 +227,7 @@ export default function JournalFinder() {
             <ResultsGrid
               results={results}
               isSearching={isSearching}
-              onBackToSearch={() => setActiveTab("search")}
+              onBackToSearch={handleNewSearch}
               onSaveSearch={() => setShowSaveDialog(true)}
             />
           </TabsContent>

@@ -49,10 +49,24 @@ function normalizeMatchesResult(payload) {
 const N8N_WEBHOOK_URL =
   import.meta.env.VITE_N8N_WEBHOOK_URL ??
   "https://n8n.frontiersin.io/webhook/match-journal-bq";
+const SCOPE_CLASSIFIER_WEBHOOK_URL =
+  import.meta.env.VITE_N8N_SCOPE_CLASSIFIER_WEBHOOK_URL ??
+  "https://n8n.frontiersin.io/webhook/ai-scope-classifier-proxy";
 const DEFAULT_TIMEOUT_MS = 30000;
 
-export async function invokeN8nWebhook({ prompt, signal, timeoutMs = DEFAULT_TIMEOUT_MS } = {}) {
-  const keywords = extractKeywords(prompt);
+function normalizeScopeClassifierResult(payload) {
+  if (Array.isArray(payload)) {
+    return { data: payload, metadata: null };
+  }
+
+  if (payload && typeof payload === "object" && Array.isArray(payload.data)) {
+    return { data: payload.data, metadata: payload.metadata ?? null };
+  }
+
+  return { data: [], metadata: null };
+}
+
+async function invokeWebhook(url, body, signal, timeoutMs) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
@@ -66,12 +80,12 @@ export async function invokeN8nWebhook({ prompt, signal, timeoutMs = DEFAULT_TIM
   }
 
   try {
-    const res = await fetch(N8N_WEBHOOK_URL, {
+    const res = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ keywords }),
+      body: JSON.stringify(body),
       signal: controller.signal,
     });
 
@@ -82,14 +96,49 @@ export async function invokeN8nWebhook({ prompt, signal, timeoutMs = DEFAULT_TIM
       );
     }
 
-    const payload = await res.json().catch(() => null);
-    return normalizeMatchesResult(payload);
+    return await res.json().catch(() => null);
   } finally {
     clearTimeout(timeoutId);
     if (signal) {
       signal.removeEventListener("abort", handleAbort);
     }
   }
+}
+
+export async function invokeScopeClassifier({ manuscript, signal, timeoutMs = DEFAULT_TIMEOUT_MS } = {}) {
+  if (!SCOPE_CLASSIFIER_WEBHOOK_URL) {
+    throw new Error(
+      "InvokeLLM: VITE_N8N_SCOPE_CLASSIFIER_WEBHOOK_URL is not configured."
+    );
+  }
+
+  const payload = await invokeWebhook(
+    SCOPE_CLASSIFIER_WEBHOOK_URL,
+    {
+      manuscript: {
+        title: manuscript?.title ?? "",
+        abstract: manuscript?.abstract ?? "",
+      },
+      selected_journal_id: 0,
+      selected_section_id: 0,
+      rt_suggestions: false,
+    },
+    signal,
+    timeoutMs
+  );
+
+  return normalizeScopeClassifierResult(payload);
+}
+
+export async function invokeN8nWebhook({ prompt, signal, timeoutMs = DEFAULT_TIMEOUT_MS } = {}) {
+  const keywords = extractKeywords(prompt);
+  const payload = await invokeWebhook(
+    N8N_WEBHOOK_URL,
+    { keywords },
+    signal,
+    timeoutMs
+  );
+  return normalizeMatchesResult(payload);
 }
 
 export default invokeN8nWebhook;

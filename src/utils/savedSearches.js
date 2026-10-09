@@ -21,6 +21,7 @@ export const SavedSearchesService = {
       const newSearch = {
         id: Date.now().toString(),
         name: searchData.name || `Search ${searches.length + 1}`,
+        title: searchData.title || "",
         abstract: searchData.abstract || "",
         keywords: searchData.keywords || "",
         aims: searchData.aims || "",

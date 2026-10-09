@@ -111,6 +111,17 @@ export default function SearchForm({
                 transition={{ duration: 0.2 }}
                 className="space-y-2"
               >
+                <Label htmlFor="title" className="flex items-center gap-2 text-sm font-semibold">
+                  Manuscript Title
+                </Label>
+                <Input
+                  id="title"
+                  placeholder="Enter your manuscript title..."
+                  value={searchData.title}
+                  onChange={(e) => handleInputChange("title", e.target.value)}
+                  className="border-2 focus:border-accent transition-colors"
+                />
+
                 <Label htmlFor="abstract" className="flex items-center gap-2 text-sm font-semibold">
                   Research Abstract
                 </Label>

@@ -46,13 +46,13 @@ The app also includes a searchable, filterable browser of the full Frontiers jou
 
 1. **Journal catalog** — On load, the SPA fetches `public/JournalList.csv` and parses it with PapaParse into a normalized list of journals (title, field, scope, keywords, impact factor, etc.).
 2. **User input** — The user provides either a full abstract or a combination of keywords, aims, and scope via `SearchForm`.
-3. **LLM call** — `InvokeLLM` in `src/integrations/Core.js` posts an OpenAI-compatible chat completion request to the **Vercel AI Gateway**, asking the model to score each journal against the submission and return a structured JSON object (enforced via `response_format: json_schema`).
+3. **Matching call** — abstract searches post the documented manuscript payload to the n8n ScopeClassifier webhook and receive journal/section recommendations. Keyword searches use the legacy n8n keyword webhook, with the Vercel AI Gateway retained as timeout fallback.
 4. **Enrichment & rendering** — Each AI match is merged with the full journal record from the CSV and rendered as a `JournalCard` with score, explanation, key matches, ISSN, impact factor, and a link to the journal website.
 5. **Persistence** — The user can save the entire search (inputs + results) to `localStorage` via `SavedSearchesService`, and re-run or delete saved searches from the *Saved* tab.
 
 ```
  ┌─────────────┐  CSV    ┌──────────────────┐  prompt+schema   ┌─────────────────────┐
- │  Browser    │ ──────► │   Journal entity │ ───────────────► │ Vercel AI Gateway   │
+ │  Browser    │ ──────► │   Journal entity │ ───────────────► │ n8n ScopeClassifier  │
  │  (React SPA)│         │  (PapaParse)     │ ◄─────────────── │ (OpenAI-compatible) │
  └─────┬───────┘                                  JSON match    └─────────────────────┘
        │
@@ -80,7 +80,8 @@ The app also includes a searchable, filterable browser of the full Frontiers jou
 
 **AI integration**
 
-- [Vercel AI Gateway](https://vercel.com/docs/ai-gateway) — OpenAI-compatible chat completions endpoint, default model `openai/gpt-4o-mini`. Called directly from the browser via `fetch`.
+- n8n ScopeClassifier — receives `{ manuscript, selected_journal_id, selected_section_id, rt_suggestions }` and returns `{ data, metadata }`.
+- [Vercel AI Gateway](https://vercel.com/docs/ai-gateway) — timeout fallback for keyword searches, called directly from the browser via `fetch`.
 
 **Serving (production)**
 
@@ -116,7 +117,7 @@ journal-finder-test/
 │   ├── entities/
 │   │   └── Journal.js            # CSV loader → normalized journal objects
 │   ├── integrations/
-│   │   └── Core.js               # InvokeLLM → Vercel AI Gateway
+│   │   └── integrations/         # n8n ScopeClassifier and keyword integrations
 │   ├── utils/
 │   │   ├── index.ts              # createPageUrl helper
 │   │   └── savedSearches.js      # localStorage-backed saved searches service
@@ -295,7 +296,7 @@ Two common options:
 1. **Static host (recommended for simple deploys).** Build with `npm run build` and serve `dist/` from any static host (Vercel, Netlify, Cloudflare Pages, S3 + CloudFront, Nginx, …). Make sure to configure an SPA fallback (rewrite all unknown routes to `/index.html`).
 2. **Node host.** Build with `npm run build` and run `node server.js` (or `npm run preview`) behind your reverse proxy. The server listens on `PORT` (default `3001`) and includes an SPA fallback out of the box.
 
-Because env vars are inlined at build time, set `VITE_AI_GATEWAY_API_KEY` (and any overrides) **before** running `npm run build` in your CI/CD pipeline.
+Because env vars are inlined at build time, set `VITE_N8N_SCOPE_CLASSIFIER_WEBHOOK_URL` and `VITE_AI_GATEWAY_API_KEY` (and any overrides) **before** running `npm run build` in your CI/CD pipeline. Use the executable webhook URL for the ScopeClassifier workflow, not its n8n editor URL.
 
 ---
 
