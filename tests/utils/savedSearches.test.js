@@ -94,7 +94,7 @@ describe('SavedSearchesService', () => {
 
     it('returns null and logs when localStorage throws', () => {
       const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-      const setItemSpy = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      const setItemSpy = vi.spyOn(localStorage, 'setItem').mockImplementation(() => {
         throw new Error('quota');
       });
 
@@ -120,7 +120,7 @@ describe('SavedSearchesService', () => {
 
     it('returns false when localStorage throws', () => {
       const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-      const setItemSpy = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      const setItemSpy = vi.spyOn(localStorage, 'setItem').mockImplementation(() => {
         throw new Error('boom');
       });
 
@@ -151,7 +151,7 @@ describe('SavedSearchesService', () => {
 
     it('returns false when localStorage throws', () => {
       const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-      const removeSpy = vi.spyOn(Storage.prototype, 'removeItem').mockImplementation(() => {
+      const removeSpy = vi.spyOn(localStorage, 'removeItem').mockImplementation(() => {
         throw new Error('boom');
       });
 

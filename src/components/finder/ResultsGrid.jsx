@@ -1,22 +1,21 @@
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, Search, Bookmark } from "lucide-react";
+import { Button } from "primereact/button";
 import { motion, AnimatePresence } from "framer-motion";
 
 import JournalCard from "./JournalCard";
 
-export default function ResultsGrid({ 
-  results, 
-  isSearching, 
+export default function ResultsGrid({
+  results,
+  isSearching,
   onBackToSearch,
   onSaveSearch
 }) {
   if (isSearching) {
     return (
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-foreground">Analyzing Your Research</h3>
-          <p className="text-muted-foreground mt-2">
+      <div className="mx-auto max-w-6xl">
+        <div className="py-12 text-center">
+          <i className="pi pi-spin pi-spinner mb-4 text-4xl text-frontiers-600" />
+          <h3 className="text-xl font-semibold text-surface-900">Analyzing Your Research</h3>
+          <p className="mt-2 text-surface-600">
             Our AI is matching your work to the most suitable Frontiers journals...
           </p>
         </div>
@@ -25,35 +24,33 @@ export default function ResultsGrid({
   }
 
   return (
-    <div className="max-w-6xl mx-auto">
-      <div className="flex items-center justify-between mb-8">
+    <div className="mx-auto max-w-6xl">
+      <div className="mb-8 flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-foreground mb-2">
+          <h2 className="mb-2 text-3xl font-bold text-surface-900">
             Journal Recommendations
           </h2>
-          <p className="text-muted-foreground">
+          <p className="text-surface-600">
             Found {results.length} matching journals ranked by relevance
           </p>
         </div>
         <div className="flex gap-3">
           {onSaveSearch && (
             <Button
+              type="button"
+              outlined
+              label="Save Search"
+              icon="pi pi-bookmark"
               onClick={onSaveSearch}
-              variant="outline"
-              className="flex items-center gap-2"
-            >
-              <Bookmark className="w-4 h-4" />
-              Save Search
-            </Button>
+            />
           )}
           <Button
-            variant="outline"
+            type="button"
+            outlined
+            label="New Search"
+            icon="pi pi-arrow-left"
             onClick={onBackToSearch}
-            className="flex items-center gap-2"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            New Search
-          </Button>
+          />
         </div>
       </div>
 
@@ -75,18 +72,20 @@ export default function ResultsGrid({
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-12"
+            className="py-12 text-center"
           >
-            <Search className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-foreground mb-2">
+            <i className="pi pi-search mb-4 text-5xl text-surface-400" />
+            <h3 className="mb-2 text-xl font-semibold text-surface-900">
               No matches found
             </h3>
-            <p className="text-muted-foreground mb-6">
+            <p className="mb-6 text-surface-600">
               Try adjusting your search terms or providing more details about your research.
             </p>
-            <Button onClick={onBackToSearch} className="bg-accent hover:bg-accent/90 text-accent-foreground">
-              Try Another Search
-            </Button>
+            <Button
+              type="button"
+              label="Try Another Search"
+              onClick={onBackToSearch}
+            />
           </motion.div>
         )}
       </AnimatePresence>

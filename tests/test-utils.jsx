@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { PrimeReactProvider } from 'primereact/api';
 
 /**
  * Render a component inside a MemoryRouter so any react-router hooks work in tests.
@@ -7,7 +8,11 @@ import { MemoryRouter } from 'react-router-dom';
  * @param {{ route?: string }} options
  */
 export function renderWithRouter(ui, { route = '/' } = {}) {
-  return render(<MemoryRouter initialEntries={[route]}>{ui}</MemoryRouter>);
+  return render(
+    <PrimeReactProvider value={{ ripple: false }}>
+      <MemoryRouter initialEntries={[route]}>{ui}</MemoryRouter>
+    </PrimeReactProvider>,
+  );
 }
 
 /** A minimal mock journal that satisfies the JournalCard / pages shape. */

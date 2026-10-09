@@ -1,23 +1,21 @@
 import React, { useState } from "react";
+import { Button } from "primereact/button";
+import { InputText } from "primereact/inputtext";
+import { InputTextarea } from "primereact/inputtextarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function SearchForm({ 
-  searchData, 
-  setSearchData, 
-  onSearch, 
+export default function SearchForm({
+  searchData,
+  setSearchData,
+  onSearch,
   isSearching,
   searchMode = "abstract",
   setSearchMode
 }) {
-  const [mode, setMode] = useState(searchMode); // "abstract" | "keywords"
+  const [mode, setMode] = useState(searchMode);
 
-  // Update internal mode when searchMode prop changes
   React.useEffect(() => {
     setMode(searchMode);
   }, [searchMode]);
@@ -48,59 +46,59 @@ export default function SearchForm({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <Card className="max-w-4xl mx-auto shadow-xl border-0 bg-card">
+      <Card className="max-w-4xl mx-auto border-surface-200 bg-white shadow-soft">
         <CardHeader className="text-center pb-4">
           <div className="flex items-center justify-center gap-2 mb-2">
             <img
-              src="/Frontiers_Logo_Grey.png"
+              src="/frontiers-logo.svg"
               alt="Frontiers icon"
-              className="h-6 w-auto"
+              className="h-8 w-auto"
             />
           </div>
-          <CardTitle className="text-3xl font-bold text-foreground">
+          <CardTitle className="text-3xl font-bold text-surface-900">
             Frontiers journal finder
           </CardTitle>
-          <p className="text-muted-foreground mt-3">
+          <p className="text-surface-600 mt-3">
             Provide your research abstract below and let us find the right Frontiers journal for your work
           </p>
         </CardHeader>
 
         <CardContent className="space-y-6">
-          {/* Mode Toggle */}
-          <div className="flex rounded-xl border-2 border-border overflow-hidden">
+          <div className="flex overflow-hidden rounded-xl border-2 border-surface-200">
             <button
+              type="button"
               onClick={() => handleModeChange("abstract")}
-              className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-sm font-semibold transition-all duration-200 ${
+              className={`flex flex-1 items-center justify-center gap-2 px-4 py-3 text-sm font-semibold transition-all duration-200 ${
                 mode === "abstract"
-                  ? "bg-accent text-accent-foreground"
-                  : "bg-card text-muted-foreground hover:bg-muted"
+                  ? "bg-frontiers-100 text-frontiers-700"
+                  : "bg-white text-surface-600 hover:bg-surface-50"
               }`}
             >
               <img
                 src="/manuscript_icon.png"
                 alt="Frontiers icon"
-                className="h-6 w-auto" 
-              />    
+                className="h-6 w-auto"
+              />
               1. Match my abstract
             </button>
             <button
+              type="button"
               onClick={() => handleModeChange("keywords")}
-              className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-sm font-semibold transition-all duration-200 ${
+              className={`flex flex-1 items-center justify-center gap-2 px-4 py-3 text-sm font-semibold transition-all duration-200 ${
                 mode === "keywords"
-                  ? "bg-accent text-accent-foreground"
-                  : "bg-card text-muted-foreground hover:bg-muted"
+                  ? "bg-frontiers-100 text-frontiers-700"
+                  : "bg-white text-surface-600 hover:bg-surface-50"
               }`}
             >
               <img
                 src="/idea_icon.png"
                 alt="light bulb icon"
-                className="h-6 w-auto" 
+                className="h-6 w-auto"
               />
               2. Search by keywords, aims & scope
             </button>
           </div>
 
-          {/* Mode Content */}
           <AnimatePresence mode="wait">
             {mode === "abstract" ? (
               <motion.div
@@ -111,26 +109,30 @@ export default function SearchForm({
                 transition={{ duration: 0.2 }}
                 className="space-y-2"
               >
-                <Label htmlFor="title" className="flex items-center gap-2 text-sm font-semibold">
-                  Manuscript Title
-                </Label>
-                <Input
-                  id="title"
-                  placeholder="Enter your manuscript title..."
-                  value={searchData.title}
-                  onChange={(e) => handleInputChange("title", e.target.value)}
-                  className="border-2 focus:border-accent transition-colors"
-                />
+                <div className="space-y-2">
+                  <Label htmlFor="title" className="flex items-center gap-2 text-sm font-semibold">
+                    Manuscript Title
+                  </Label>
+                  <InputText
+                    id="title"
+                    placeholder="Enter your manuscript title..."
+                    value={searchData.title ?? ""}
+                    onChange={(e) => handleInputChange("title", e.target.value)}
+                    className="w-full"
+                  />
+                </div>
 
                 <Label htmlFor="abstract" className="flex items-center gap-2 text-sm font-semibold">
                   Research Abstract
                 </Label>
-                <Textarea
+                <InputTextarea
                   id="abstract"
                   placeholder="Paste your research abstract here. Include key findings, methodology, and conclusions..."
                   value={searchData.abstract}
                   onChange={(e) => handleInputChange("abstract", e.target.value)}
-                  className="min-h-48 border-2 focus:border-accent transition-colors"
+                  rows={10}
+                  className="w-full"
+                  autoResize={false}
                 />
               </motion.div>
             ) : (
@@ -146,12 +148,12 @@ export default function SearchForm({
                   <Label htmlFor="keywords" className="flex items-center gap-2 text-sm font-semibold">
                     Keywords
                   </Label>
-                  <Input
+                  <InputText
                     id="keywords"
                     placeholder="machine learning, neural networks, AI..."
                     value={searchData.keywords}
                     onChange={(e) => handleInputChange("keywords", e.target.value)}
-                    className="border-2 focus:border-accent transition-colors"
+                    className="w-full"
                   />
                 </div>
 
@@ -159,12 +161,12 @@ export default function SearchForm({
                   <Label htmlFor="aims" className="flex items-center gap-2 text-sm font-semibold">
                     Research Aims
                   </Label>
-                  <Input
+                  <InputText
                     id="aims"
                     placeholder="Primary objectives of your research..."
                     value={searchData.aims}
                     onChange={(e) => handleInputChange("aims", e.target.value)}
-                    className="border-2 focus:border-accent transition-colors"
+                    className="w-full"
                   />
                 </div>
 
@@ -172,44 +174,33 @@ export default function SearchForm({
                   <Label htmlFor="scope" className="flex items-center gap-2 text-sm font-semibold">
                     Research Scope & Field
                   </Label>
-                  <Input
+                  <InputText
                     id="scope"
                     placeholder="neuroscience, computational biology, medical imaging..."
                     value={searchData.scope}
                     onChange={(e) => handleInputChange("scope", e.target.value)}
-                    className="border-2 focus:border-accent transition-colors"
+                    className="w-full"
                   />
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
 
-          <div className="pt-2 flex gap-3">
+          <div className="flex gap-3 pt-2">
             <Button
+              type="button"
               onClick={onSearch}
               disabled={isDisabled}
-              className="w-full h-12 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-white"
-              style={{ backgroundColor: '#2B4EF5' }}
-              onMouseEnter={e => e.currentTarget.style.backgroundColor = '#1a3ae0'}
-              onMouseLeave={e => e.currentTarget.style.backgroundColor = '#2B4EF5'}
-            >
-              {isSearching ? (
-                <>
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3" />
-                  Analyzing & Matching...
-                </>
-              ) : (
-                <>
-                  <Search className="w-5 h-5 mr-3" />
-                  Find your journal
-                </>
-              )}
-            </Button>
+              loading={isSearching}
+              label={isSearching ? "Analyzing & Matching..." : "Find your journal"}
+              icon={isSearching ? undefined : "pi pi-search"}
+              className="w-full"
+            />
           </div>
 
-          <div className="bg-muted rounded-lg p-4 text-sm text-muted-foreground">
-            <p className="font-medium mb-2">Pro Tips:</p>
-            <ul className="space-y-1 list-disc list-inside">
+          <div className="rounded-lg bg-surface-50 p-4 text-sm text-surface-600">
+            <p className="mb-2 font-medium">Pro Tips:</p>
+            <ul className="list-inside list-disc space-y-1">
               <li>Use <strong>Match my abstract</strong> for the most accurate matching</li>
               <li>Use <strong>Keywords & aims</strong> when you don't have a full abstract yet</li>
               <li>Mention your research methodology if relevant</li>

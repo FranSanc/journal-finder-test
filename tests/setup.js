@@ -2,6 +2,39 @@ import '@testing-library/jest-dom/vitest';
 import { afterEach, beforeEach, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
 
+function createMemoryStorage() {
+  let store = {};
+  return {
+    getItem: (key) => (Object.prototype.hasOwnProperty.call(store, key) ? store[key] : null),
+    setItem: (key, value) => {
+      store[key] = String(value);
+    },
+    removeItem: (key) => {
+      delete store[key];
+    },
+    clear: () => {
+      store = {};
+    },
+    key: (index) => Object.keys(store)[index] ?? null,
+    get length() {
+      return Object.keys(store).length;
+    },
+  };
+}
+
+const localStorageMock = createMemoryStorage();
+const sessionStorageMock = createMemoryStorage();
+vi.stubGlobal('localStorage', localStorageMock);
+vi.stubGlobal('sessionStorage', sessionStorageMock);
+Object.defineProperty(window, 'localStorage', {
+  configurable: true,
+  value: localStorageMock,
+});
+Object.defineProperty(window, 'sessionStorage', {
+  configurable: true,
+  value: sessionStorageMock,
+});
+
 // React Testing Library unmount + cleanup between tests
 afterEach(() => {
   cleanup();

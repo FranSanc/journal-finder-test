@@ -1,91 +1,183 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@layer tailwind-base, primereact, tailwind-utilities;
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "primereact/resources/themes/lara-light-blue/theme.css";
+@import "primereact/resources/primereact.min.css";
+@import "primeicons/primeicons.css";
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+@layer tailwind-base {
+  @tailwind base;
 }
 
+@layer tailwind-utilities {
+  @tailwind components;
+  @tailwind utilities;
+}
 
+@font-face {
+  font-family: "Museo Sans";
+  src: url("https://static2.frontiersin.org/static-resources/MuseoSans300.woff2")
+    format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
 
-@layer base {
+@font-face {
+  font-family: "Museo Sans";
+  src: url("https://static2.frontiersin.org/static-resources/MuseoSans500.woff2")
+    format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Museo Sans";
+  src: url("https://static2.frontiersin.org/static-resources/MuseoSans700.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-family: "Museo Sans", "MuseoSans", ui-sans-serif, system-ui, sans-serif;
+  --primary-color: var(--p-primary-color, #003bde);
+  --primary-color-text: var(--p-primary-contrast-color, #ffffff);
+  --text-color: var(--p-text-color, #282828);
+  --text-color-secondary: var(--p-text-muted-color, #a2a2a2);
+  --surface-0: var(--p-surface-0, #ffffff);
+  --surface-50: var(--p-surface-50, #f7f7f7);
+  --surface-100: var(--p-surface-100, #f0f0f0);
+  --surface-200: var(--p-surface-200, #e6e6e6);
+  --surface-300: var(--p-surface-300, #d5d5d5);
+  --surface-400: var(--p-surface-400, #bfbfbf);
+  --surface-500: var(--p-surface-500, #a2a2a2);
+  --surface-600: var(--p-surface-600, #878787);
+  --surface-700: var(--p-surface-700, #6b6b6b);
+  --surface-800: var(--p-surface-800, #545454);
+  --surface-900: var(--p-surface-900, #282828);
+  --surface-ground: var(--p-surface-50, #f7f7f7);
+  --surface-section: var(--p-surface-0, #ffffff);
+  --surface-card: var(--p-surface-0, #ffffff);
+  --surface-overlay: var(--p-surface-0, #ffffff);
+  --surface-border: var(--p-content-border-color, #d5d5d5);
+  --surface-hover: var(--p-surface-100, #f0f0f0);
+  --highlight-bg: var(--p-primary-100, #cee1ff);
+  --highlight-text-color: var(--p-primary-700, #002fca);
+  --focus-ring: 0 0 0 0.125rem var(--p-blue-600, #003bde);
+  --maskbg: var(--p-mask-background, rgba(40, 40, 40, 0.4));
+
+  /* shadcn tokens remapped onto Brink / @frontiers/prime-preset */
+  --background: 0 0% 100%;
+  --foreground: 0 0% 16%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 16%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 16%;
+  --primary: 224 100% 43.5%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 97%;
+  --secondary-foreground: 0 0% 16%;
+  --muted: 0 0% 97%;
+  --muted-foreground: 0 0% 42%;
+  --accent: 217 100% 90%;
+  --accent-foreground: 226 100% 40%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 84%;
+  --input: 0 0% 84%;
+  --ring: 224 100% 43.5%;
+  --chart-1: 12 76% 61%;
+  --chart-2: 173 58% 39%;
+  --chart-3: 197 37% 24%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 27 87% 67%;
+  --radius: 0.5rem;
+  --sidebar-background: 0 0% 98%;
+  --sidebar-foreground: 0 0% 16%;
+  --sidebar-primary: 224 100% 43.5%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 216 100% 97%;
+  --sidebar-accent-foreground: 224 100% 43.5%;
+  --sidebar-border: 0 0% 84%;
+  --sidebar-ring: 224 100% 43.5%;
+}
+
+.dark {
+  --background: 0 0% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 0 0% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 217 100% 90%;
+  --primary-foreground: 224 100% 20%;
+  --secondary: 0 0% 14.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 0 0% 14.9%;
+  --muted-foreground: 0 0% 63.9%;
+  --accent: 0 0% 14.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 14.9%;
+  --input: 0 0% 14.9%;
+  --ring: 217 100% 90%;
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
+  --sidebar-background: 240 5.9% 10%;
+  --sidebar-foreground: 240 4.8% 95.9%;
+  --sidebar-primary: 224.3 76.3% 48%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 240 3.7% 15.9%;
+  --sidebar-accent-foreground: 240 4.8% 95.9%;
+  --sidebar-border: 240 3.7% 15.9%;
+  --sidebar-ring: 217.2 91.2% 59.8%;
+}
+
+@layer tailwind-base {
   * {
     @apply border-border outline-ring/50;
   }
 
-  body {
-    @apply bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
+  html,
+  body,
+  #root {
+    height: 100%;
   }
+
+  body {
+    @apply bg-gradient-to-b from-frontiers-50 to-white text-foreground antialiased;
+    font-family: var(--font-family);
+    font-weight: 300;
+  }
+}
+
+.p-button {
+  border-radius: 3rem;
+}
+
+.p-button:not(.p-button-outlined):not(.p-button-text):not(.p-button-link):not(.p-disabled) {
+  background: var(--p-primary-color, #003bde);
+  border-color: var(--p-primary-color, #003bde);
+  color: var(--p-primary-contrast-color, #ffffff);
+}
+
+.p-button.p-button-outlined {
+  color: var(--p-primary-color, #003bde);
+  border-color: var(--p-primary-color, #003bde);
+}
+
+.p-inputtext:enabled:focus,
+.p-inputtextarea:enabled:focus {
+  box-shadow: var(--focus-ring);
+  border-color: var(--p-primary-color, #003bde);
+}
+
+.p-input-icon-left > i:first-of-type {
+  left: 1.35rem;
 }

@@ -194,10 +194,10 @@ export default function JournalFinder() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-6 py-8">
+    <div className="min-h-screen bg-gradient-to-b from-frontiers-50 to-white">
+      <div className="mx-auto max-w-7xl px-6 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-3 mb-8 bg-card shadow-lg">
+          <TabsList className="mx-auto mb-8 grid w-full max-w-2xl grid-cols-3 bg-white shadow-soft">
             <TabsTrigger value="search" className="flex items-center gap-2">
               <Search className="w-4 h-4" />
               Search
