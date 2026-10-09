@@ -48,6 +48,48 @@ describe('InvokeLLM', () => {
     expect(JSON.parse(init.body)).toEqual({ keywords: ['neuroscience', 'cognition'] });
   });
 
+  it.each([
+    ['array payload', [{ journal_title: 'Journal A' }], [{ journal_title: 'Journal A' }]],
+    ['results payload', { results: [{ journal_title: 'Journal B' }] }, [{ journal_title: 'Journal B' }]],
+    ['journals payload', { journals: [{ journal_title: 'Journal C' }] }, [{ journal_title: 'Journal C' }]],
+    ['single journal payload', { journal_title: 'Journal D' }, [{ journal_title: 'Journal D' }]],
+    ['unrecognized payload', { unexpected: true }, []],
+  ])('normalizes the n8n %s', async (_description, payload, matches) => {
+    globalThis.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve(payload),
+    });
+
+    const { invokeN8nWebhook } = await import('@/integrations/webhook-keywords');
+    await expect(invokeN8nWebhook({ prompt: 'Keywords: one; two' })).resolves.toEqual({ matches });
+  });
+
+  it('retries the Vercel gateway with JSON mode when schema format is rejected', async () => {
+    globalThis.fetch
+      .mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        text: () => Promise.resolve('invalid response_format'),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({
+          choices: [{ message: { content: '{"matches":[]}' } }],
+        }),
+      });
+
+    const { invokeVercelGateway } = await import('@/integrations/Vercel-keywords');
+    const result = await invokeVercelGateway({
+      prompt: 'Keywords: neuroscience',
+      response_json_schema: { title: 'matches', type: 'object' },
+    });
+
+    expect(result).toEqual({ matches: [] });
+    expect(globalThis.fetch).toHaveBeenCalledTimes(2);
+    expect(JSON.parse(globalThis.fetch.mock.calls[0][1].body).response_format.type).toBe('json_schema');
+    expect(JSON.parse(globalThis.fetch.mock.calls[1][1].body).response_format.type).toBe('json_object');
+  });
+
   it('falls back to the Vercel gateway when the n8n webhook times out', async () => {
     globalThis.fetch
       .mockRejectedValueOnce(Object.assign(new Error('The operation was aborted.'), { name: 'AbortError' }))
