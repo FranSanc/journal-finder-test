@@ -1,8 +1,6 @@
-import React from "react";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { InputText } from "primereact/inputtext";
+import { Dropdown } from "primereact/dropdown";
 import { Card, CardContent } from "@/components/ui/card";
-import { Search, Filter, SortAsc } from "lucide-react";
 
 export default function BrowseFilters({
   searchTerm,
@@ -14,57 +12,62 @@ export default function BrowseFilters({
   fields,
   journalCount
 }) {
+  const fieldOptions = [
+    { label: "All Fields", value: "all" },
+    ...fields.map((field) => ({
+      label: field.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()),
+      value: field,
+    })),
+  ];
+
+  const sortOptions = [
+    { label: "Title A-Z", value: "title" },
+    { label: "Impact Factor", value: "impact_factor" },
+    { label: "Field", value: "field" },
+  ];
+
   return (
-    <Card className="mb-8 shadow-sm">
+    <Card className="mb-8 border-surface-200 shadow-soft">
       <CardContent className="p-6">
-        <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
-          <div className="relative flex-1 min-w-0">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-            <Input
+        <div className="flex flex-col items-start gap-4 lg:flex-row lg:items-center">
+          <span className="p-input-icon-left min-w-0 flex-1">
+            <i className="pi pi-search" />
+            <InputText
               placeholder="Search journals, keywords, or scope..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 border-2 focus:border-accent"
+              className="w-full !pl-12"
             />
-          </div>
+          </span>
 
-          <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+          <div className="flex w-full flex-col gap-4 sm:flex-row lg:w-auto">
             <div className="flex items-center gap-2">
-              <Filter className="h-4 w-4 text-muted-foreground" />
-              <Select value={selectedField} onValueChange={setSelectedField}>
-                <SelectTrigger className="w-48">
-                  <SelectValue placeholder="All Fields" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Fields</SelectItem>
-                  {fields.map((field) => (
-                    <SelectItem key={field} value={field}>
-                      {field.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <i className="pi pi-filter text-surface-500" />
+              <Dropdown
+                value={selectedField}
+                onChange={(e) => setSelectedField(e.value)}
+                options={fieldOptions}
+                className="w-48"
+                aria-label="Filter by field"
+              />
             </div>
 
             <div className="flex items-center gap-2">
-              <SortAsc className="h-4 w-4 text-muted-foreground" />
-              <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="w-40">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="title">Title A-Z</SelectItem>
-                  <SelectItem value="impact_factor">Impact Factor</SelectItem>
-                  <SelectItem value="field">Field</SelectItem>
-                </SelectContent>
-              </Select>
+              <i className="pi pi-sort-alt text-surface-500" />
+              <Dropdown
+                value={sortBy}
+                onChange={(e) => setSortBy(e.value)}
+                options={sortOptions}
+                className="w-40"
+                aria-label="Sort journals"
+              />
             </div>
           </div>
         </div>
 
-        <div className="mt-4 text-sm text-muted-foreground">
-          Showing {journalCount} journal{journalCount !== 1 ? 's' : ''}
-          {selectedField !== "all" && ` in ${selectedField.replace(/_/g, ' ')}`}
+        <div className="mt-4 text-sm text-surface-600">
+          Showing {journalCount} journal{journalCount !== 1 ? "s" : ""}
+          {selectedField !== "all" && ` in ${selectedField.replace(/_/g, " ")}`}
         </div>
       </CardContent>
     </Card>

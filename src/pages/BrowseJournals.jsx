@@ -96,13 +96,13 @@ export default function BrowseJournals() {
   const fields = [...new Set(journals.map(j => j.field))].sort();
 
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-b from-frontiers-50 to-white p-6">
+      <div className="mx-auto max-w-7xl">
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          <h1 className="mb-4 text-3xl font-bold text-surface-900 md:text-4xl">
             Browse Frontiers Journals
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-surface-600">
             Explore our comprehensive collection of {journals.length} open-access journals
           </p>
         </div>
@@ -123,7 +123,7 @@ export default function BrowseJournals() {
             {!isLoading ? (
               filteredJournals.map((journal, index) => (
                 <motion.div
-                  key={journal.id}
+                  key={`${journal.id ?? journal.title}-${index}`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}

@@ -4,7 +4,6 @@ import { invokeVercelGateway } from "./Vercel-keywords.js";
 const DEFAULT_MODEL =
   import.meta.env.VITE_AI_GATEWAY_MODEL ?? "openai/gpt-4o-mini";
 const N8N_TIMEOUT_MS = 30000;
-  import.meta.env.VITE_AI_GATEWAY_MODEL ?? "openai/gpt-4o-mini";
 
 export async function InvokeLLM({
   prompt,

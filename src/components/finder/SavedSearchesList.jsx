@@ -1,7 +1,6 @@
+import { Button } from "primereact/button";
+import { Tag } from "primereact/tag";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Trash2, Play, BookmarkIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function SavedSearchesList({
@@ -27,7 +26,7 @@ export default function SavedSearchesList({
           animate={{ opacity: 1, y: 0 }}
           className="text-center py-12"
         >
-          <BookmarkIcon className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
+          <i className="pi pi-bookmark mb-4 text-5xl text-surface-400" />
           <h3 className="text-xl font-semibold text-foreground mb-2">
             No saved searches yet
           </h3>
@@ -41,9 +40,10 @@ export default function SavedSearchesList({
             <h2 className="text-2xl font-bold text-foreground">
               My Saved Searches
             </h2>
-            <Badge variant="secondary" className="text-base py-1.5 px-3">
-              {savedSearches.length} {savedSearches.length === 1 ? "search" : "searches"}
-            </Badge>
+            <Tag
+              value={`${savedSearches.length} ${savedSearches.length === 1 ? "search" : "searches"}`}
+              rounded
+            />
           </div>
 
           <div className="grid gap-4">
@@ -113,32 +113,34 @@ export default function SavedSearchesList({
                           </div>
 
                           <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                            <Badge variant="outline" className="text-xs">
-                              {search.mode === "abstract" ? "Abstract Match" : "Keywords & Aims"}
-                            </Badge>
+                            <Tag
+                              value={search.mode === "abstract" ? "Abstract Match" : "Keywords & Aims"}
+                              severity="secondary"
+                              rounded
+                            />
                             <span>
                               {new Date(search.createdAt).toLocaleDateString()}
                             </span>
                           </div>
                         </div>
 
-                        <div className="flex gap-2 flex-shrink-0">
+                        <div className="flex flex-shrink-0 gap-2">
                           <Button
+                            type="button"
+                            size="small"
+                            label="View results"
+                            icon="pi pi-play"
                             onClick={() => onRunSearch(search)}
-                            className="bg-accent hover:bg-accent/90 text-accent-foreground flex items-center gap-2"
-                            size="sm"
-                          >
-                            <Play className="w-4 h-4" />
-                            View results
-                          </Button>
+                          />
                           <Button
+                            type="button"
+                            size="small"
+                            text
+                            severity="danger"
+                            icon="pi pi-trash"
+                            aria-label="Delete search"
                             onClick={() => onDeleteSearch(search.id)}
-                            variant="ghost"
-                            size="sm"
-                            className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
+                          />
                         </div>
                       </div>
                     </CardContent>

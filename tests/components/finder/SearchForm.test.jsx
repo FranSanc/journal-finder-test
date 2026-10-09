@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import SearchForm from '@/components/finder/SearchForm';
 
 const baseProps = () => ({
-  searchData: { abstract: '', keywords: '', aims: '', scope: '' },
+  searchData: { title: '', abstract: '', keywords: '', aims: '', scope: '' },
   setSearchData: vi.fn(),
   onSearch: vi.fn(),
   isSearching: false,
@@ -18,6 +18,7 @@ describe('SearchForm', () => {
 
     // CardTitle renders as a <div>, so we match by text.
     expect(screen.getByText(/frontiers journal finder/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/manuscript title/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/research abstract/i)).toBeInTheDocument();
   });
 
